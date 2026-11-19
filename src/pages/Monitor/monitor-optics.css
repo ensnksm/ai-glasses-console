@@ -1,0 +1,91 @@
+.monitor-focus-card { position: relative; }
+
+@container workspace-pane (max-width: 760px) {
+  .monitor-page .monitor-grid { grid-template-columns: minmax(0, 1fr); }
+  .monitor-page .metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .monitor-page .page-header { align-items: flex-start; flex-wrap: wrap; }
+  .monitor-page .panel-header,
+  .monitor-page .camera-controls,
+  .monitor-page .camera-controls > div { flex-wrap: wrap; }
+}
+.monitor-result-edge {
+  position: absolute;
+  inset: -1px -1px -1px -3px;
+  border: 1px solid var(--focus-ring);
+  border-radius: inherit;
+  box-shadow: 0 0 12px color-mix(in srgb, var(--focus-ring) 32%, transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) and (forced-colors: none) {
+  .monitor-result-edge.is-arriving { animation: monitor-result-arrival var(--dur-update) var(--ease-out-ios) both; }
+}
+@keyframes monitor-result-arrival {
+  0%, 100% { opacity: 0; }
+  18% { opacity: 1; }
+}
+
+/* Latest AI output laid over the camera placeholder, like a caption bar. The feed itself stays an honest "no video" state. */
+.camera-ai-caption {
+  position: absolute;
+  z-index: 1;
+  inset-inline: 14px;
+  bottom: 14px;
+  display: grid;
+  gap: 3px;
+  padding: 10px 14px 12px;
+  border: 1px solid #6a80a24d;
+  border-radius: 12px;
+  background: #0c1524e6;
+  box-shadow: 0 12px 26px -16px #000d;
+  color: #f4f7fc;
+  text-align: start;
+}
+.camera-ai-caption__meta { display: flex; align-items: center; gap: 6px; min-width: 0; color: #b6c5da; font-size: 12px; font-weight: 650; }
+.camera-ai-caption__meta > svg { flex: none; color: #9cc0ff; }
+.camera-ai-caption__meta time { color: #93a5bf; font-weight: 500; font-variant-numeric: tabular-nums; }
+.camera-ai-caption__tag { margin-inline-start: auto; flex: none; padding: 1px 8px; border: 1px solid #8ba3c75c; border-radius: 999px; color: #c9d6e9; font-size: 11px; font-weight: 600; }
+.camera-ai-caption strong { color: #fff; font-size: clamp(16px, 1.5vw, 21px); font-weight: 700; line-height: 1.4; overflow-wrap: anywhere; }
+.camera-ai-caption--compact {
+  display: block;
+  inset-inline: 7px;
+  bottom: 7px;
+  padding: 4px 8px;
+  border-radius: 7px;
+  overflow: hidden;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.camera-feed--with-overlay .camera-bottom,
+.camera-feed--with-overlay .camera-optics > span:nth-child(n + 3) { display: none; }
+.camera-feed--with-overlay .camera-center { opacity: .8; }
+.camera-feed--with-overlay:not(.camera-feed--compact) .camera-center { padding-bottom: 96px; }
+.camera-feed--with-overlay.camera-feed--compact .camera-center { padding-bottom: 26px; }
+@supports (backdrop-filter: blur(8px)) {
+  @media (prefers-reduced-transparency: no-preference) and (forced-colors: none) {
+    .camera-ai-caption { background: #0c1524c4; backdrop-filter: blur(8px); }
+  }
+}
+
+/* AI perception: latest result per wearer group, then the recent event stream. */
+.assist-list { display: grid; gap: 8px; margin-top: 11px; }
+.assist-row { display: flex; gap: 10px; align-items: flex-start; min-width: 0; padding: 11px 12px; border: 1px solid var(--line); border-radius: var(--radius-inner); background: var(--surface-raised); box-shadow: var(--shadow-control); }
+.assist-row .tone-icon { width: 30px; height: 30px; margin-top: 1px; }
+.assist-row__body { display: grid; gap: 2px; min-width: 0; }
+.assist-row__label { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 7px; color: var(--text-secondary); font-size: 12px; font-weight: 700; }
+.assist-row__label small { color: var(--muted); font-size: 11px; font-weight: 500; }
+.assist-row strong { color: var(--ink); font-size: 15px; font-weight: 700; line-height: 1.45; overflow-wrap: anywhere; }
+.assist-row__meta { color: var(--muted); font-size: 12px; }
+.assist-row__meta time { font-variant-numeric: tabular-nums; }
+.monitor-page .event-peek { gap: 8px; }
+.event-peek__text { display: flex; flex: 1; gap: 8px; align-items: baseline; min-width: 0; }
+.event-peek__feature { flex: none; color: var(--text-secondary); font-weight: 650; }
+.event-peek__result { min-width: 0; overflow: hidden; color: var(--muted); text-overflow: ellipsis; white-space: nowrap; }
+.monitor-page .event-peek:hover .event-peek__result { color: inherit; }
+.event-list-empty { margin: 8px 0 0; font-size: 12px; }
+@media (forced-colors: active) {
+  .camera-ai-caption { border-color: CanvasText; }
+}

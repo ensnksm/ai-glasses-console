@@ -1,0 +1,31 @@
+.camera-optics {
+  --optics-inset-inline: clamp(12px, 4%, 26px);
+  --optics-inset-top: clamp(30px, 12%, 47px);
+  --optics-inset-bottom: clamp(22px, 10%, 37px);
+  --optics-bracket: 20px;
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 43%, transparent 26%, #0b142333 75%, #090f1c80 100%);
+}
+.camera-feed--compact .camera-optics {
+  --optics-inset-inline: clamp(8px, 4%, 14px);
+  --optics-inset-top: clamp(22px, 15%, 30px);
+  --optics-inset-bottom: clamp(13px, 11%, 22px);
+  --optics-bracket: 12px;
+}
+.camera-optics > span {
+  position: absolute;
+  width: var(--optics-bracket);
+  height: var(--optics-bracket);
+  border: 0 solid #8caad27a;
+}
+.camera-optics > span:nth-child(1) { top: var(--optics-inset-top); left: var(--optics-inset-inline); border-width: 1px 0 0 1px; border-top-left-radius: 4px; }
+.camera-optics > span:nth-child(2) { top: var(--optics-inset-top); right: var(--optics-inset-inline); border-width: 1px 1px 0 0; border-top-right-radius: 4px; }
+.camera-optics > span:nth-child(3) { bottom: var(--optics-inset-bottom); left: var(--optics-inset-inline); border-width: 0 0 1px 1px; border-bottom-left-radius: 4px; }
+.camera-optics > span:nth-child(4) { bottom: var(--optics-inset-bottom); right: var(--optics-inset-inline); border-width: 0 1px 1px 0; border-bottom-right-radius: 4px; }
+
+@media (forced-colors: active) {
+  .camera-optics { display: none; }
+}

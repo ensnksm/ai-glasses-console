@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="AI Glasses 智能眼镜综合管理平台 · 本地演示" />
+    <meta name="theme-color" content="#f2f2f7" />
+    <script>
+      // Apply the stored theme before the first paint, even when opening a route directly.
+      (() => {
+        const root = document.documentElement
+        let preference = 'light'
+        try {
+          const stored = localStorage.getItem('aig-ui-theme')
+          if (stored === 'light' || stored === 'dark' || stored === 'system') preference = stored
+        } catch { /* Theme switching still works for the current page. */ }
+        let glass = 'on'
+        try {
+          const stored = localStorage.getItem('aig-ui-transparency')
+          if (stored === 'system' || stored === 'off') glass = stored
+        } catch { /* Glass stays on by default. */ }
+        root.dataset.transparency = glass
+        root.dataset.glass = glass === 'on' || (glass === 'system' && !matchMedia('(prefers-reduced-transparency: reduce)').matches) ? 'on' : 'off'
+        root.dataset.themePreference = preference
+        root.dataset.theme = preference === 'system'
+          ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+          : preference
+      })()
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/glasses.svg" />
+    <title>AI Glasses · 智能眼镜管理平台</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

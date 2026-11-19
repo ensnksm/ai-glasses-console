@@ -1,0 +1,50 @@
+:root {
+  --window-stage-sky: #aecaf658;
+  --window-stage-lilac: #c3ccf65e;
+  --window-glass-face: linear-gradient(150deg, #f9fbff99, #e8f1fd70 62%, #eef4fe8c);
+  --window-glass-quiet-face: linear-gradient(150deg, #f9fbfff2, #e8f1fddd 68%, #eef4feeb);
+  --window-glass-header: linear-gradient(180deg, #fffb, #f2f7ff60);
+  --window-glass-card: linear-gradient(155deg, #fffd, #f8fbffc7 87%);
+  --window-glass-line: #94acd065;
+  --window-glass-edge: #ffffffe8;
+  --window-glass-card-line: #adbfda6e;
+  --window-glass-rim-shadow: inset 0 1px 1px #fffe, inset 1px 0 3px #f5faffb0;
+  --window-glass-reading-ink: #30435e;
+}
+
+:root[data-theme="dark"] {
+  --window-stage-sky: #294b745f;
+  --window-stage-lilac: #35416e70;
+  --window-glass-face: linear-gradient(150deg, #32446198, #19263c87 62%, #2234509a);
+  --window-glass-quiet-face: linear-gradient(150deg, #27344bf2, #1b2639e6 68%, #22334aeb);
+  --window-glass-header: linear-gradient(180deg, #526a9580, #25385350);
+  --window-glass-card: linear-gradient(155deg, #202c3ee6, #192438cb 89%);
+  --window-glass-line: #728ab074;
+  --window-glass-edge: #afcaff90;
+  --window-glass-card-line: #7792b53e;
+  --window-glass-rim-shadow: inset 0 1px 1px #aacbff48, inset 1px 0 2px #a9bce43b;
+  --window-glass-reading-ink: #c1d0e7;
+}
+
+@supports (backdrop-filter: blur(14px)) {
+  @media (prefers-reduced-transparency: no-preference) and (forced-colors: none) {
+    .workspace-stage {
+      background: radial-gradient(ellipse at 5% 5%, var(--window-stage-sky), transparent 60%),
+        radial-gradient(ellipse at 93% 93%, var(--window-stage-lilac), transparent 65%);
+    }
+    /* Window chrome keeps a light glass edge; content stays opaque so tables and text never pick up the backdrop. */
+    .workspace-stage .workspace-frame {
+      border-color: var(--window-glass-line);
+      border-top-color: var(--window-glass-edge);
+      box-shadow: var(--window-glass-rim-shadow), var(--shadow-panel);
+    }
+    .workspace-frame[data-active]:not([data-mode="maximized"], [data-gesturing], [data-scaling], [data-unfolding]) {
+      box-shadow: var(--window-glass-rim-shadow), var(--shadow-floating);
+    }
+    .workspace-frame > .workspace-titlebar {
+      background: var(--window-glass-header);
+      border-bottom-color: var(--window-glass-line);
+    }
+    .workspace-frame[data-scaling] .workspace-window-scale-panel { backdrop-filter: none; }
+  }
+}

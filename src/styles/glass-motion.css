@@ -1,0 +1,52 @@
+.glass-indicator, .glass-hover-indicator, .glass-focus-indicator { transform-origin: 0 0; }
+
+.glass-hover-indicator, .glass-focus-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--glass-width, 0px);
+  height: var(--glass-height, 0px);
+  opacity: 0;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.glass-hover-indicator { z-index: 0; background: color-mix(in srgb, var(--muted) 10%, transparent); }
+.glass-focus-indicator { z-index: 3; }
+.glass-focus-indicator::after { content: ''; position: absolute; inset: 2px; border: 2px solid var(--focus-ring); border-radius: inherit; }
+.glass-hover-indicator[data-visible], .glass-focus-indicator[data-visible] { opacity: 1; }
+.sidebar-nav[data-focus-ring] .nav-link:focus-visible { outline-color: transparent; }
+
+.sidebar-nav[data-gesture="dragging"] .nav-link[aria-current="page"]:not([data-glass-preview]) {
+  background-color: color-mix(in srgb, var(--glass-solid) 40%, transparent);
+  border-color: color-mix(in srgb, var(--accent-icon) 44%, transparent);
+}
+
+.nav-link-content { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.nav-link-icon { position: relative; flex: none; }
+.nav-link-icon-fill {
+  position: absolute;
+  inset: 0;
+  fill: color-mix(in srgb, currentColor 22%, transparent);
+  opacity: 0;
+}
+.nav-link:is(.nav-link--active, [data-glass-preview]) .nav-link-icon-fill { opacity: 1; }
+.nav-link:is(.nav-link--active, [data-glass-preview]) .nav-link-icon > svg:first-child { opacity: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .glass-selection :is(.glass-indicator, .glass-hover-indicator, .glass-focus-indicator)[data-moving],
+  .glass-selection[data-gesture="dragging"] .glass-indicator { will-change: transform; }
+  .glass-hover-indicator, .nav-link-icon > svg { transition: opacity var(--dur-fast, 120ms) var(--ease-standard, ease); }
+  .nav-link-content { transition: transform var(--dur-fast, 120ms) var(--ease-out-ios, ease-out); }
+  .nav-link[data-glass-pressed] .nav-link-content { transform: scale(.97); transition-duration: var(--dur-press, 80ms); }
+}
+
+@media (forced-colors: active) {
+  .glass-hover-indicator, .glass-focus-indicator { display: none; }
+  .sidebar-nav[data-focus-ring] .nav-link:focus-visible { outline-color: Highlight; }
+  .sidebar-nav[data-gesture="dragging"] .nav-link[aria-current="page"]:not([data-glass-preview]) {
+    color: LinkText;
+    background-color: Canvas;
+    border-color: LinkText;
+  }
+}
